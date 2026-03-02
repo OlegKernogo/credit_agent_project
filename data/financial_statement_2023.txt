@@ -1,0 +1,13 @@
+Company XYZ Financial Statement 2023
+Income Statement:
+Revenue: $550,000
+Operating Expenses: $380,000
+Net Profit: $170,000
+
+Balance Sheet:
+Cash and Equivalents: $95,000
+Fixed Assets (Equipment, Real Estate): $420,000
+Liabilities: $110,000
+
+Cash Flow Statement:
+Operating Cash Flow: $180,000

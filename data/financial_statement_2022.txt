@@ -1,0 +1,13 @@
+Company XYZ Financial Statement 2022
+Income Statement:
+Revenue: $500,000
+Operating Expenses: $350,000
+Net Profit: $150,000
+
+Balance Sheet:
+Cash and Equivalents: $80,000
+Fixed Assets (Equipment, Real Estate): $400,000
+Liabilities: $100,000
+
+Cash Flow Statement:
+Operating Cash Flow: $160,000

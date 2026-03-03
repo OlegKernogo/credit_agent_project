@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from typing import List
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
@@ -26,15 +27,28 @@ def parse_financial_documents(folder_path: str) -> ExtractedFinancialData:
     all_text = ""
     for filename in os.listdir(folder_path):
         filepath = os.path.join(folder_path, filename)
-        if os.path.isfile(filepath):
+        if os.path.isfile(filepath) and (filepath.endswith('.txt') or filepath.endswith('.pdf') or filepath.endswith('.md')):
             try:
                 all_text += f"\n--- Document Core: {filename} ---\n"
                 all_text += extract_text_from_file(filepath)
             except Exception as e:
                 print(f"Error reading {filename}: {e}")
-                
+
+    # load_dotenv()  # Load environment variables for API keys            
     # Use LLM to extract structured data
-    llm = ChatOpenAI(model="gpt-4o", temperature=0) # You will need to set OPENAI_API_KEY env var
+    if os.getenv("USE_OPENROUTER") == "true":
+        llm = ChatOpenAI(
+            model="openai/gpt-5.2",    
+            openai_api_key = os.getenv("OPENROUTER_API_KEY"),
+            openai_api_base = 'https://openrouter.ai/api/v1',
+            # streaming=True,
+            temperature=0
+        )
+    else:
+        llm = ChatOpenAI(model="gpt-4o", temperature=0) # You will need to set OPENAI_API_KEY env var
+
+  
+    
     structured_llm = llm.with_structured_output(ExtractedFinancialData)
     
     prompt = ChatPromptTemplate.from_messages([

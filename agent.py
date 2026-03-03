@@ -1,5 +1,7 @@
 import json
+import os
 from typing import Dict, Any, Literal, Optional, List   
+from dotenv import load_dotenv
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, END
@@ -22,7 +24,21 @@ class AgentState(TypedDict):
     guardrail_triggers: List[str]
     decision: CreditDecision
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+# load_dotenv()  # Load environment variables for API keys            
+# Use LLM to extract structured data
+if os.getenv("USE_OPENROUTER") == "true":
+    llm = ChatOpenAI(
+        model="openai/gpt-5.2",    
+        openai_api_key = os.getenv("OPENROUTER_API_KEY"),
+        openai_api_base = 'https://openrouter.ai/api/v1',
+        # streaming=True,
+        temperature=0
+    )
+else:
+    llm = ChatOpenAI(model="gpt-4o", temperature=0) # You will need to set OPENAI_API_KEY env var
+
+
 
 # Nodes
 def supervisor_node(state: AgentState):
